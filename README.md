@@ -18,3 +18,9 @@ To get a copy of the project up and running on your local machine, follow these 
 2. Clone the repository using the following command:
    ```bash
    git clone https://github.com/ZionJiam/ReviseMe.git
+3. Change to revisem-backend directory
+   ```bash
+   cd  reviseme-backend
+5. Run the application with command
+   ```bash
+   npm run dev
