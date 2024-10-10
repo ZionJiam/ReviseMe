@@ -1,0 +1,54 @@
+/* Home Page */
+.user-info {
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  .username {
+    font-size: 24px;
+    font-weight: bold;
+    color: #273267;
+  }
+  
+  .stats {
+    color: #888;
+    font-size: 16px;
+  }
+  
+  .flashcards-deck {
+    margin: 20px 0;
+  }
+  
+  .flashcards-list {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .flashcard {
+    width: 120px;
+    height: 160px;
+    background-color: #e6e4e2;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .add-card {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .calendar-section {
+    margin: 20px 0;
+  }
+  
+  .planning-section {
+    margin: 20px 0;
+    padding: 12px;
+    background-color: #e6e4e2;
+    border: 1px solid #ccc;
+    text-align: center;
+  }
+  

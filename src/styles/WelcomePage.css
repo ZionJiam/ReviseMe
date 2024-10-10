@@ -1,0 +1,128 @@
+/* General styles */
+body {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  color: #333;
+}
+
+/* Header Section */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background-color: #fff;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.header .logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #000;
+}
+
+.header .navigation {
+  display: flex;
+  gap: 20px;
+}
+
+.header .navigation a {
+  text-decoration: none;
+  font-size: 16px;
+  color: #333;
+}
+
+.header .auth-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.header .login-button, .header .signup-button {
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+}
+
+.header .signup-button {
+  background-color: #000;
+  color: #fff;
+}
+
+.header .login-button {
+  background-color: transparent;
+  color: #000;
+}
+
+/* Main Content */
+.main-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 60px 80px;
+  background-color: #f9f9f9;
+}
+
+.text-section {
+  flex: 1;
+}
+
+.text-section h1 {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.text-section p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.text-section .cta-button {
+  background-color: #000;
+  color: #fff;
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.illustration-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.illustration-section img {
+  max-width: 400px;
+  width: 100%;
+  height: auto;
+}
+
+/* Features Section */
+.features-section {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 40px 0;
+  background-color: #fff;
+}
+
+.features-section .feature {
+  text-align: center;
+  flex-direction: column;
+}
+
+.features-section .feature img {
+  max-width: 60px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.features-section .feature p {
+  font-size: 16px;
+  margin-top: 10px;
+  color: #333;
+}
