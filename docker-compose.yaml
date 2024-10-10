@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./reviseme-backend/test-service # Path to the backend folder
+    ports:
+      - "4000:4000"
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/testDB # Use your actual database name
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+  
+  frontend:
+    build:
+      context: ./reviseme-frontend # Path to the frontend folder
+    ports:
+      - "3000:80"
