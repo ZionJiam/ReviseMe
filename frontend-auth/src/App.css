@@ -1,0 +1,79 @@
+/* General Container Styles */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* Buttons */
+button {
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: #273267;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #1e254f;
+}
+
+/* Inputs and Textareas */
+input,
+textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 12px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+textarea {
+  height: 120px;
+}
+
+/* General Header Styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: #f4f4f4;
+  border-bottom: 2px solid #e6e4e2;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+  color: #273267;
+}
+
+.nav-options {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-options a {
+  text-decoration: none;
+  color: #273267;
+  font-size: 18px;
+}
+
+.nav-options a:hover {
+  text-decoration: underline;
+}
+
+/* Profile Picture */
+.profile-pic {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.profile-pic:hover {
+  border: 2px solid #273267;
+}
