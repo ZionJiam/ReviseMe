@@ -1,0 +1,34 @@
+/* Global Container */
+.container {
+  font-family: 'Arial', sans-serif;
+  background-color: #E6E4E2; /* Light Background */
+  color: #37312B; /* Dark Text */
+  margin: 0;
+  padding: 20px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  background-color: #C8A67B;
+}
+
+.logo {
+  font-size: 24px;
+  color: #273267;
+}
+
+/* Button Hover */
+.buttons-container button:hover {
+  background-color: #273267;
+  color: #E6E4E2;
+}
+
+/* Central Image */
+.central-image {
+  width: 200px;
+  height: auto;
+}
