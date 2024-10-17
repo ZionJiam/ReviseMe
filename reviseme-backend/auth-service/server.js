@@ -1,27 +1,47 @@
+// Import required dependencies
 const express = require('express');
-const session = require('express-session');
-const passport = require('passport');
-require('./config/passport')(passport);  // Configuring passport
-require('dotenv').config();  // Loading environment variables
+const mongoose = require('mongoose');
+const cors = require('cors');
+require('dotenv').config();  // Load environment variables from a .env file
 
+// Initialize Express app
 const app = express();
 
-// Body parser
-app.use(express.urlencoded({ extended: false }));
-
-// Express session
-app.use(session({
-  secret: 'secret',
-  resave: true,
-  saveUninitialized: true
+// Middleware to handle CORS and JSON payloads
+app.use(cors({
+  origin: ['http://localhost:3000'],  // Add your frontend URL here
+  methods: ['GET', 'POST'],
 }));
+app.use(express.json());  // Middleware to parse JSON request bodies
 
-// Passport middleware
-app.use(passport.initialize());
-app.use(passport.session());
+// Connect to MongoDB
+mongoose.connect('mongodb://localhost:27017/reviseme', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log('MongoDB connected...'))
+.catch(err => console.error('MongoDB connection error:', err));
 
-// Routes
-app.use(require('./routes/authRoutes'));
+// Import and use auth routes
+app.use('/api', require('./routes/authRoutes')); // Use the authRoutes.js file with /api prefix
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, console.log(`Server started on port ${PORT}`));
+// Route to fetch all users (for testing purposes)
+app.get('/api/users', async (req, res) => {
+  try {
+    const users = await User.find();  // Fetch all users
+    res.json(users);  // Send the list of users as JSON
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching users: ' + err.message });
+  }
+});
+
+// Health Check Route
+app.get('/api/test', (req, res) => {
+  res.send('Server is up and running');  // Simple route to check if the server is working
+});
+
+// Start the server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
