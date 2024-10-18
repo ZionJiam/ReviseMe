@@ -71,9 +71,15 @@ Getting Started
     *   **docker run -d -p 27017-27019:27017-27019 --name mongodb mongo**
     *   Validate if everything is OK: **docker ps** 
 
-4.  Start the service: **node src/server.js**
+4.  Install required packages
+    **npm install joi**
+    **npm install dotenv**       
+    **npm install jest supertest --save-dev** 
+    **npm install swagger-jsdoc swagger-ui-express** (for documentation)
 
-5.  Access the APP: **http://localhost:3000/flashcards**
+5.  Start the service: **node src/server.js**
+
+6.  Access the APP: **http://localhost:3000/flashcards**
 
 
 API Endpoints
