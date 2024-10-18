@@ -15,7 +15,7 @@ app.use(cors({
 app.use(express.json());  // Middleware to parse JSON request bodies
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/reviseme', {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
