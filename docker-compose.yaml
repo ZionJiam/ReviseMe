@@ -1,23 +1,40 @@
 version: '3.8'
 
 services:
-  backend:
-    build:
-      context: ./reviseme-backend/test-service # Path to the backend folder
+  auth-service2:
+    build: ./reviseme-backend/auth2-service
     ports:
-      - "4000:4000"
+      - "5000:5000"  # Expose backend on port 5000
+    volumes:
+      - ./reviseme-backend/auth2-service:/usr/src/app  # Mount the backend folder
     environment:
-      - MONGODB_URI=mongodb://mongo:27017/testDB # Use your actual database name
+      - NODE_ENV=development
+      - MONGODB_URI=mongodb://mongo:27017/testDB  # Connection string for MongoDB
     depends_on:
-      - mongo
+      - mongo  # Ensure MongoDB starts before this service
+    networks:
+      - app-network  # Connect to the specified network
 
   mongo:
-    image: mongo
+    image: mongo:5.0  # Use the specified MongoDB image
     ports:
-      - "27017:27017"
+      - "27017:27017"  # Expose MongoDB on port 27017
+    volumes:
+      - mongo-data:/data/db  # Use a named volume for persistent data
+    networks:
+      - app-network  # Connect to the specified network
   
   frontend:
     build:
       context: ./reviseme-frontend # Path to the frontend folder
     ports:
       - "3000:80"
+    networks:
+      - app-network  # Connect to the specified network
+
+volumes:
+  mongo-data:  # Define a named volume for MongoDB data
+
+networks:
+  app-network:
+    driver: bridge  # Use bridge networking

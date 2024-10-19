@@ -1,27 +1,37 @@
 const express = require('express');
-const session = require('express-session');
-const passport = require('passport');
-require('./config/passport')(passport);  // Configuring passport
-require('dotenv').config();  // Loading environment variables
+const mongoose = require('mongoose');
+const cors = require('cors');
+const userRoutes = require('./routes/userRoutes');
+// const peopleRoutes = require('./routes/peopleRoutes');
+
 
 const app = express();
+const PORT = 5000;
+const MONGODB_URI = process.env.MONGODB_URI;
 
-// Body parser
-app.use(express.urlencoded({ extended: false }));
 
-// Express session
-app.use(session({
-  secret: 'secret',
-  resave: true,
-  saveUninitialized: true
-}));
 
-// Passport middleware
-app.use(passport.initialize());
-app.use(passport.session());
+// Middleware
+app.use(express.json());
+app.use(cors({
+    origin: 'http://localhost:3001'  // or whatever your frontend's Docker service URL is
+  }));
 
-// Routes
-app.use(require('./routes/authRoutes'));
+console.log('Connecting to MongoDB at:', MONGODB_URI);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, console.log(`Server started on port ${PORT}`));
+// Connect to MongoDB
+mongoose.connect(MONGODB_URI, {
+    useNewUrlParser: true,
+  useUnifiedTopology: true,
+}).then(() => console.log('MongoDB connected'))
+  .catch(err => console.log('Error connecting to MongoDB', err));
+
+// Mount the routes with /api/users prefix
+// app.use('/api/users', userRoutes);
+app.use('/api/users', userRoutes);
+
+
+// Start server
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
