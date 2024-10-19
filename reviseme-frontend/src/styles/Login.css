@@ -1,0 +1,104 @@
+/* Container that centers everything on the page */
+.login-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  background-color: #fff;
+}
+
+/* Logo centered at the top */
+.logo {
+  max-width: 120px;
+  margin-bottom: -30px;
+}
+
+/* Login form container */
+.login-container {
+  width: 400px;
+  background: #f8f9fa; /* Light background similar to LinkedIn */
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  text-align: center;
+}
+
+/* Form elements */
+.login-form label {
+  display: block;
+  text-align: left;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #000;
+}
+
+input {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.password-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.show-password {
+  cursor: pointer;
+  color: #0073b1;
+  font-size: 12px;
+}
+
+.forgot-password {
+  display: block;
+  margin-bottom: 20px;
+  font-size: 12px;
+  color: #0073b1;
+  text-decoration: none;
+}
+
+/* Buttons */
+.login-button, .apple-signin-button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background-color: black; /* Black button as requested */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.apple-signin-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.apple-logo {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+.divider {
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* Sign up text at the bottom */
+.signup-text {
+  font-size: 14px;
+}
+
+.signup-text a {
+  color: #0073b1;
+  text-decoration: none;
+}
