@@ -24,7 +24,7 @@ export default function Login() {
 
       if (response.ok) {
         // Successful login, redirect to homepage
-        navigate('/homepage');
+        navigate('/Flashcard/Flashcard_Creator');
       } else {
         // Display error message
         setError(data.message || 'Login failed');

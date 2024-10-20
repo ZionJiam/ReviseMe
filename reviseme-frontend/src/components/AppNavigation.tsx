@@ -6,6 +6,9 @@ import ProfilePicture from './ProfilePicture.tsx';
 import AddDeck from './AddDeck.tsx';
 import EditPlanning from './EditPlanning.tsx';
 import WelcomePage from './WelcomePage.tsx'; // Import WelcomePage
+import FlashcardCreator from './Flashcard/FlashcardCreator.tsx';
+
+
 import React from 'react';
 
 export default function AppNavigation() {
@@ -19,6 +22,7 @@ export default function AppNavigation() {
         <Route path="/profile-picture" element={<ProfilePicture />} />
         <Route path="/add-deck" element={<AddDeck />} />
         <Route path="/edit-planning" element={<EditPlanning />} />
+        <Route path="/Flashcard/FlashcardCreator" element={<FlashcardCreator />} />
       </Routes>
     </Router>
   );

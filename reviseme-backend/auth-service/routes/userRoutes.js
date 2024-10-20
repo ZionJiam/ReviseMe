@@ -1,5 +1,4 @@
 const express = require('express');
-const session = require('express-session');
 const router = express.Router();
 const User = require('../models/User');
 const People = require('../models/People');
@@ -9,6 +8,7 @@ const bcrypt = require('bcryptjs');
 
 // POST route to register a user
 router.post('/register', async (req, res) => {
+
   const { name, email, password } = req.body;
   try {
       // Check if user already exists
@@ -35,32 +35,13 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// ... other imports
-
-router.post('/login', async (req, res) => {
-  const { email, password } = req.body;
-
+// Get all users (GET)
+router.get('/people', async (req, res) => {
   try {
-    // Check if the user exists
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(404).json({   
- message: 'User not found' });
-    }
-
-    // Compare the entered password with the hashed password in the database
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid credentials' });
-    }
-
-    // Login successful, create a session with user ID
-    req.session.userId = user._id;
-    await req.session.save(); // Important to save the session
-
-    res.status(200).json({ message: 'Login successful', userId: user._id });
+    const users = await People.find();
+    res.status(200).json(users);
   } catch (error) {
-    res.status(500).json({ message: 'Error logging in', error: error.message });
+    res.status(400).json({ message: 'Error fetching People', error:error.message });
   }
 });
 

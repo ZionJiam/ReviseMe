@@ -323,10 +323,19 @@ router.get('/sets/all', async (req, res) => {
  */
 router.post('/sets/', async (req, res) => {
     try {
-        const flashcardSet = await flashCardService.createFlashcardSet(req.body);
+
+        // Check if a user is logged in by checking the session
+        if (!req.session.userId) {
+            return res.status(401).json({ message: 'Unauthorized' });
+        }
+
+        const userId = req.session.userId;
+
+        const flashcardSet = await flashCardService.createFlashcardSet(userId, req.body);
         res.json(flashcardSet);
     } catch (error) {
-        res.status(500).json({ message: 'Internal Server Error' });
+        console.error('Error creating flashcard set:', error);
+        res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
 });
 

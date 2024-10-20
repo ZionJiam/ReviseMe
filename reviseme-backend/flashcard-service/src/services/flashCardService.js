@@ -54,8 +54,32 @@ class FlashCardService {
         }
     }
 
-    async createFlashcardSet(data) {
-        const flashcardSet = new FlashcardSet(data);
+    async createFlashcardSet(userid, data) {
+        const { name, description, flashcards } = data;
+
+        // Create the FlashcardSet
+        const flashcardSet = new FlashcardSet({
+            name,
+            description
+        });
+
+        // Create FlashCards and associate them with the set
+        const flashcardPromises = flashcards.map(async (cardData) => {
+            const flashcard = new FlashCard({
+                question: cardData.question,
+                answer: cardData.answer,
+                subject: cardData.subject,
+                tags: cardData.tags,
+                flashcardSet: flashcardSet._id
+            });
+            await flashcard.save();
+            return flashcard._id;
+        });
+
+        // Wait for all flashcards to be created
+        flashcardSet.flashcards = await Promise.all(flashcardPromises);
+
+        // Save the FlashcardSet
         return await flashcardSet.save();
     }
 

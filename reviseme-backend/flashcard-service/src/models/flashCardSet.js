@@ -7,3 +7,10 @@ const flashcardSetSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 module.exports = mongoose.model('FlashcardSet', flashcardSetSchema);
+
+flashcardSetSchema.pre('save', function (next) {
+    if (!this.userId) { // Check if userId is not already set
+      this.userId = req.session.userId; // Assuming userId is in the session
+    }
+    next(); // Continue with the save operation
+  });
