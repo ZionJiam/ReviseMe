@@ -1,48 +1,26 @@
-// const LocalStrategy = require('passport-local').Strategy;
-// const GoogleStrategy = require('passport-google-oauth20').Strategy;
-// const bcrypt = require('bcryptjs');
-// const User = require('../models/User');
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const { findUserByGoogleId, addUser } = require('../userStore');  // Adjust path if needed
 
-// module.exports = function(passport) {
-//   // Local strategy
-//   passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
-//     User.findOne({ email: email }, (err, user) => {
-//       if (err) return done(err);
-//       if (!user) return done(null, false, { message: 'That email is not registered' });
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "http://localhost:5001/auth/google/callback"
+}, (accessToken, refreshToken, profile, done) => {
+    const { id, displayName, emails } = profile;
 
-//       // Match password
-//       if (!bcrypt.compareSync(password, user.password)) {
-//         return done(null, false, { message: 'Password incorrect' });
-//       }
+    let user = findUserByGoogleId(id);
+    if (user) {
+        return done(null, user);
+    } else {
+        user = { googleId: id, name: displayName, email: emails[0].value };
+        addUser(user);
+        return done(null, user);
+    }
+}));
 
-//       return done(null, user);
-//     });
-//   }));
-
-//   // Google strategy
-//   passport.use(new GoogleStrategy({
-//     clientID: process.env.GOOGLE_CLIENT_ID,
-//     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-//     callbackURL: "/auth/google/callback"
-//   }, (accessToken, refreshToken, profile, done) => {
-//     User.findOne({ googleId: profile.id }, async (err, user) => {
-//       if (err) return done(err);
-//       if (user) return done(null, user);
-
-//       // Create a new user if not exist
-//       const newUser = new User({
-//         googleId: profile.id,
-//         name: profile.displayName,
-//         email: profile.emails[0].value
-//       });
-//       await newUser.save();
-//       done(null, newUser);
-//     });
-//   }));
-
-//   // Serialize and deserialize users
-//   passport.serializeUser((user, done) => done(null, user.id));
-//   passport.deserializeUser((id, done) => {
-//     User.findById(id, (err, user) => done(err, user));
-//   });
-// };
+passport.serializeUser((user, done) => done(null, user.googleId));
+passport.deserializeUser((googleId, done) => {
+    const user = findUserByGoogleId(googleId);
+    done(null, user);
+});

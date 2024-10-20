@@ -102,3 +102,45 @@ input {
   color: #0073b1;
   text-decoration: none;
 }
+
+.google-login-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  background-color: #4285F4;  /* Google's blue color */
+  color: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+  font-family: 'Roboto', sans-serif;
+}
+
+.google-login-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: 500;
+  border: 1px solid #dcdcdc;  /* Light gray border */
+  background-color: #fff;  /* White background */
+  color: #000;  /* Black text */
+  border-radius: 25px;  /* Rounded edges */
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  /* Light shadow */
+  transition: background-color 0.3s ease;
+  font-family: 'Roboto', sans-serif;  /* Google style font */
+}
+
+.google-login-btn:hover {
+  background-color: #f7f7f7;  /* Slightly darker background on hover */
+}
+
+.google-login-btn img.google-logo {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;  /* Space between the logo and text */
+}
