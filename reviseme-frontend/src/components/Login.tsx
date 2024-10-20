@@ -5,15 +5,34 @@ import '../styles/Login.css'; // Ensure you have the CSS linked
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   // Use React Router's useNavigate hook
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    // Perform login validation (if needed)
+  const handleLogin = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    // After validation, navigate to the WelcomePage
-    navigate('/homepage');
+      const data = await response.json();
+
+      if (response.ok) {
+        // Successful login, redirect to homepage
+        navigate('/homepage');
+      } else {
+        // Display error message
+        setError(data.message || 'Login failed');
+      }
+    } catch (error) {
+      setError('Error logging in');
+      console.error('Error:', error);
+    }
   };
 
   return (
@@ -40,8 +59,12 @@ export default function Login() {
               onChange={(e) => setPassword(e.target.value)} 
               placeholder="Password" 
             />
-            
+
           </div>
+
+          {/* Display error message */}
+          {error && <p className="error-message">{error}</p>}
+
 
           <a href="/forgot-password" className="forgot-password">
             Forgot password?
