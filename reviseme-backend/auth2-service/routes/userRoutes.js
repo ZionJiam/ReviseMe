@@ -40,13 +40,33 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Get all users (GET)
-router.get('/people', async (req, res) => {
+// POST route to login a user
+router.post('/login', async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000'); // Replace with your frontend's URL
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type'); 
+
+  const { email, password } = req.body;
+
   try {
-    const users = await People.find();
-    res.status(200).json(users);
+    // Check if the user exists
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Compare the entered password with the hashed password in the database
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    // If login is successful, you can create a session or token here
+    // (e.g., JWT or session management, depending on your authentication strategy)
+    
+    res.status(200).json({ message: 'Login successful', userId: user._id });
   } catch (error) {
-    res.status(400).json({ message: 'Error fetching People', error:error.message });
+    res.status(500).json({ message: 'Error logging in', error: error.message });
   }
 });
 
