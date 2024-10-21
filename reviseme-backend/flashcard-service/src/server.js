@@ -37,13 +37,20 @@ const swaggerDocs = swaggerJsDoc(options);
 
 // Middleware
 server.use(bodyParser.json());
+server.use(cookieParser());
+
+server.use(cors({
+    origin: 'http://localhost:3000',  // or whatever your frontend's Docker service URL is
+    credentials: true                 // Allow cookies to be sent
+  }));
+
+// Routes with NO authenticating of cookies
+
+// // Routes with authenticating of cookies
+server.use('/flashcards', authenticateJWT, flashCardController);
 
 
-// Routes
-server.use('/flashcards', flashCardController);
-server.use('/review', reviewController);
-server.use('/flashcardsSets', flashCardSetController);
-server.use('/groups', groupsController);
+server.use('/flashcards', flashCardController, reviewController);
 
 
 // Swagger route
