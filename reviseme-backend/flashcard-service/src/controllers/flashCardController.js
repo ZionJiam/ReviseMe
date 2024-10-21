@@ -320,13 +320,9 @@ router.post('/sets/', async (req, res) => {
     try {
 
         // Check if a user is logged in by checking the session
-        if (!req.session.userId) {
-            return res.status(401).json({ message: 'Unauthorized' });
-        }
-
-        const userId = req.session.userId;
-
-        const flashcardSet = await flashCardService.createFlashcardSet(userId, req.body);
+        const userId = req.userId; // This comes from the authenticateJWT middleware
+        console.log("UserId is retrieved in flashcard POST API: " + userId);
+        const flashcardSet = await flashCardService.createFlashcardSet(req.body, userId);
         res.json(flashcardSet);
     } catch (error) {
         console.error('Error creating flashcard set:', error);

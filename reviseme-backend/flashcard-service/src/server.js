@@ -71,13 +71,12 @@ server.use(cors({
   }));
 
 // Routes with NO authenticating of cookies
-// server.use('/flashcards', flashCardController);
 
 // // Routes with authenticating of cookies
 server.use('/flashcards', authenticateJWT, flashCardController);
 
 
-
+server.use('/flashcards', flashCardController, reviewController);
 
 
 // Swagger route
