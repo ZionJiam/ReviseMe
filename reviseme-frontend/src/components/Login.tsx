@@ -18,13 +18,15 @@ export default function Login() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password }),
+        credentials: 'include',  // Include cookies in requests/responses
       });
 
       const data = await response.json();
 
       if (response.ok) {
         // Successful login, redirect to homepage
-        navigate('/Flashcard/Flashcard_Creator');
+        console.log("Response is: " + data);
+        navigate('/Flashcard/FlashcardSetDisplay');
       } else {
         // Display error message
         setError(data.message || 'Login failed');

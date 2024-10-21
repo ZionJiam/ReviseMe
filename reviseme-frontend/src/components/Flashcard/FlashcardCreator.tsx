@@ -15,6 +15,8 @@ interface FlashcardSet {
   flashcards: Flashcard[];
 }
 
+
+
 const FlashcardCreator: React.FC = () => {
   const [flashcards, setFlashcards] = useState<Flashcard[]>([{ question: '', answer: '', subject: '', tags: [] }]);
   const [name, setName] = useState<string>('');
@@ -26,6 +28,10 @@ const FlashcardCreator: React.FC = () => {
     setFlashcards([...flashcards, { question: '', answer: '', subject: '', tags: [] }]);
   };
 
+  // Use React Router's useNavigate hook
+  const navigate = useNavigate();
+
+
   const handleFlashcardChange = (index: number, field: keyof Flashcard, value: string) => {
     const newFlashcards = [...flashcards];
     if (field === 'tags') {
@@ -36,6 +42,9 @@ const FlashcardCreator: React.FC = () => {
     setFlashcards(newFlashcards);
   };
 
+  const handleBackButtonClick = () => {
+    navigate(-1);
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -55,6 +64,7 @@ const FlashcardCreator: React.FC = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(flashcardSet),
+        credentials: 'include', // Automatically include cookies
       });
 
       if (!response.ok) {
@@ -77,6 +87,7 @@ const FlashcardCreator: React.FC = () => {
 
   return (
     <div className="flashcard-creator">
+      <button onClick={handleBackButtonClick}>Back</button>
       <h2>Create New Flashcard Set</h2>
 
       {error && <div className="error-message">{error}</div>}

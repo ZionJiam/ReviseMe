@@ -5,6 +5,10 @@ const User = require('../models/User');
 const People = require('../models/People');
 
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
+const SECRET_KEY = 'ILOVEYOU';
+
 
 
 // POST route to register a user
@@ -43,9 +47,11 @@ router.post('/login', async (req, res) => {
   try {
     // Check if the user exists
     const user = await User.findOne({ email });
+    const userId = user._id;
+
     if (!user) {
       return res.status(404).json({   
- message: 'User not found' });
+        message: 'User not found' });
     }
 
     // Compare the entered password with the hashed password in the database
@@ -54,11 +60,18 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    // Login successful, create a session with user ID
-    req.session.userId = user._id;
-    await req.session.save(); // Important to save the session
+    const token = jwt.sign({ userId }, SECRET_KEY, { expiresIn: '1h' });
 
-    res.status(200).json({ message: 'Login successful', userId: user._id });
+    //Send the token as an HttpOnly cookie
+    res.cookie('token', token, {
+      httpOnly: true, // Prevent JavaScript access to the cookie
+      secure: false, // Only send over HTTPS current false
+      sameSite: 'Lax', // Prevent CSRF
+      maxAge: 3600000, // 1 hour
+    });
+
+
+    res.status(200).json({message: 'Login successful', userId: user._id });
   } catch (error) {
     res.status(500).json({ message: 'Error logging in', error: error.message });
   }

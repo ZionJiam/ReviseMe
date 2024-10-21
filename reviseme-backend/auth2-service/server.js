@@ -14,7 +14,8 @@ const MONGODB_URI = process.env.MONGODB_URI;
 // Middleware
 app.use(express.json());
 app.use(cors({
-    origin: 'http://localhost:3000'  // or whatever your frontend's Docker service URL is
+    origin: 'http://localhost:3000',  // or whatever your frontend's Docker service URL is
+    credentials: true                 // Allow cookies to be sent
   }));
 
 console.log('Connecting to MongoDB at:', MONGODB_URI);

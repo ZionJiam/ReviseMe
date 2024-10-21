@@ -54,13 +54,14 @@ class FlashCardService {
         }
     }
 
-    async createFlashcardSet(userid, data) {
+    async createFlashcardSet(data, userId) {
         const { name, description, flashcards } = data;
 
         // Create the FlashcardSet
         const flashcardSet = new FlashcardSet({
             name,
-            description
+            description,
+            userId
         });
 
         // Create FlashCards and associate them with the set
@@ -70,7 +71,8 @@ class FlashCardService {
                 answer: cardData.answer,
                 subject: cardData.subject,
                 tags: cardData.tags,
-                flashcardSet: flashcardSet._id
+                flashcardSet: flashcardSet._id,
+                userId: userId
             });
             await flashcard.save();
             return flashcard._id;

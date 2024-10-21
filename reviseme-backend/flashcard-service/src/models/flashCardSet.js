@@ -4,6 +4,7 @@ const flashcardSetSchema = new mongoose.Schema({
     name: { type: String, required: true },
     description: { type: String },
     flashcards: [{ type: mongoose.Schema.Types.ObjectId, ref: 'FlashCard' }],
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
 }, { timestamps: true });
 
 module.exports = mongoose.model('FlashcardSet', flashcardSetSchema);

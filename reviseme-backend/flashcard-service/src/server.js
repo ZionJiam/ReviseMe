@@ -10,6 +10,33 @@ const server = express();
 const PORT = process.env.PORT || 5001;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://mongo:27017/testDB';
 
+const jwt = require('jsonwebtoken');
+const SECRET_KEY = 'ILOVEYOU';
+const cookieParser = require('cookie-parser');
+
+// Middleware to verify JWT
+const authenticateJWT = (req, res, next) => {
+    const token = req.cookies.token;
+    console.log('Enter Authentica JWT TOKEN');
+
+
+    if (!token) {
+    console.log('No token found in cookies');
+      return res.status(401).json({ message: 'Access token required' });
+    }
+  
+    jwt.verify(token, SECRET_KEY, (err, user) => {
+      if (err) {
+        console.log('Token verification failed:', err);
+        return res.status(403).json({ message: 'Invalid or expired token' });
+      }
+      req.user = user;
+      req.userId = user.userId;
+      console.log("User DATA IS: " + user.userId);
+      next();
+    });
+  };
+
 console.log('Connecting to MongoDB at:', MONGODB_URI);
 
 const options = {
@@ -33,12 +60,21 @@ const swaggerDocs = swaggerJsDoc(options);
 
 // Middleware
 server.use(bodyParser.json());
+server.use(cookieParser());
+
 server.use(cors({
-    origin: 'http://localhost:3000'  // or whatever your frontend's Docker service URL is
+    origin: 'http://localhost:3000',  // or whatever your frontend's Docker service URL is
+    credentials: true                 // Allow cookies to be sent
   }));
 
-// Routes
-server.use('/flashcards', flashCardController);
+// Routes with NO authenticating of cookies
+// server.use('/flashcards', flashCardController);
+
+// // Routes with authenticating of cookies
+server.use('/flashcards', authenticateJWT, flashCardController);
+
+
+
 
 // Swagger route
 server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
