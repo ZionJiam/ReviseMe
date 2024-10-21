@@ -4,7 +4,7 @@ services:
   auth-service2:
     build: ./reviseme-backend/auth2-service
     ports:
-      - "5000:5000"  # Expose backend on port 5000
+      - "5002:5002"  # Expose backend on port 5000
     volumes:
       - ./reviseme-backend/auth2-service:/usr/src/app  # Mount the backend folder
     environment:

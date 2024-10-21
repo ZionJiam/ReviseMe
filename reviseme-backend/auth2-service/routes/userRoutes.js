@@ -77,6 +77,17 @@ router.post('/login', async (req, res) => {
   }
 });
 
+router.post('/logout', (req, res) => {
+  try {
+    // Clear the 'token' cookie by setting its Max-Age to 0
+    res.cookie('token', '', { maxAge: 0, httpOnly: true });
+
+    res.status(200).json({ message: 'Logged out successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error logging out', error: error.message });
+  }
+});
+
 // Get all users (GET)
 router.get('/users', async (req, res) => {
   try {

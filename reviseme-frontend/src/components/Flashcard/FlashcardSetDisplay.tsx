@@ -33,10 +33,31 @@ const FlashcardSetDisplay: React.FC = () => {
     navigate(`/flashcards/${setId}`);
   };
 
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('http://localhost:5002/api/users/logout', {
+        method: 'POST', // Assuming your logout API is a POST request
+        credentials: 'include', // Include cookies for logout
+      });
+
+      if (response.ok) {
+        // Redirect to login page after successful logout
+        navigate('/login');
+      } else {
+        console.error('Error logging out:', await response.text());
+        // Handle logout error (optional: display an error message)
+      }
+    } catch (error) {
+      console.error('Error logging out:', error);
+      // Handle logout error (optional: display an error message)
+    }
+  };
+
   return (
     <div className="flashcard-set-container">
       <h2>ALL Available Flashcard Sets</h2>
-      <button onClick={() =>navigate('/Flashcard/FlashcardCreator')}>Create Flashcard Set</button>
+      <button onClick={() => navigate('/Flashcard/FlashcardCreator')}>Create Flashcard Set</button>
+      <button onClick={handleLogout}>Logout</button> {/* Added logout button */}
       <div className="flashcard-set-row">
         {flashcardSets.length > 0 ? (
           flashcardSets.map((set) => (

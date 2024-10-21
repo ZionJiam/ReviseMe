@@ -6,7 +6,7 @@ const userRoutes = require('./routes/userRoutes');
 
 
 const app = express();
-const PORT = 5000;
+const PORT = 5002;
 const MONGODB_URI = process.env.MONGODB_URI;
 
 
@@ -17,6 +17,15 @@ app.use(cors({
     origin: 'http://localhost:3000',  // or whatever your frontend's Docker service URL is
     credentials: true                 // Allow cookies to be sent
   }));
+
+// Create a middleware function to add CORS headers
+const addCorsHeaders = (req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST,   PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();   
+
+};
 
 console.log('Connecting to MongoDB at:', MONGODB_URI);
 
@@ -29,7 +38,7 @@ mongoose.connect(MONGODB_URI, {
 
 // Mount the routes with /api/users prefix
 // app.use('/api/users', userRoutes);
-app.use('/api/users', userRoutes);
+app.use('/api/users', addCorsHeaders, userRoutes);
 
 
 // Start server
