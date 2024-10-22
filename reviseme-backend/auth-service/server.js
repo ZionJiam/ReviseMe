@@ -24,7 +24,7 @@ app.use(cors({
 
 // Express session
 app.use(session({
-  secret: 'secret',
+  secret: process.env.SESSION_SECRET || 'secret',,
   resave: true,
   saveUninitialized: true
 }));
@@ -44,5 +44,25 @@ useUnifiedTopology: true,
 // Routes
 app.use(require('./routes/authRoutes'));
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, console.log(`Server started on port ${PORT}`));
+// Define the Google Auth route
+app.get('/auth/google', (req, res, next) => {
+  console.log("Reached /auth/google route");
+  next();
+}, passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+// Define the Google callback route
+app.get('/auth/google/callback', 
+    passport.authenticate('google', { failureRedirect: '/login' }),
+    (req, res) => {
+        res.redirect('/');  // Redirect to home on success
+    }
+);
+
+// const PORT = process.env.PORT || 3000;
+// app.listen(PORT, console.log(`Server started on port ${PORT}`));
+
+const PORT = process.env.PORT || 5001;
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+});
+

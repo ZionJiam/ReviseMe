@@ -15,6 +15,10 @@ export default function Login() {
     // After validation, navigate to the WelcomePage
     navigate('/homepage');
   };
+  const handleGoogleLogin = () => {
+    // Redirect to the Google authentication route
+    window.location.href = 'http://localhost:5001/auth/google'; // Redirect to the backend
+};
 
   return (
     <div className="login-page">
@@ -53,6 +57,16 @@ export default function Login() {
           </button>
 
         </form>
+        {/* Google login button */}
+    
+        <button onClick={handleGoogleLogin} className="google-login-btn">
+                <img
+                    src="	https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg"
+                    alt="Google logo"
+                    className="google-logo"
+                />
+                Sign in with Google
+            </button>
 
         <p className="signup-text">
           New to the platform? <a href="/signin">Join now</a>
