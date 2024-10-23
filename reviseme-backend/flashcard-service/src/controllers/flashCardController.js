@@ -260,7 +260,90 @@ router.delete('/:id', async (req, res) => {
  *     tags: [Flashcards]
  *     responses:
  *       200:
- *         description: All flashcards deleted
+ *         description: A list of flashcard sets
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: './models/flashcardSet'
+ *       500:
+ *         description: Internal server error
+ */
+router.get('/sets/all', async (req, res) => {
+    try {
+        const flashcardSets = await flashCardService.findAllFlashcardSets();
+        res.json(flashcardSets);
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
+
+/**
+ * @swagger
+ * /flashcards/sets:
+ *   post:
+ *     summary: Create a new flashcard set
+ *     tags: [Flashcard Sets]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: Geography
+ *               description:
+ *                 type: string
+ *                 example: Countries of the world
+ *               flashcardIds:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 example: [123, 456, 789]
+ *     responses:
+ *       201:
+ *         description: Flashcard set created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: './models/flashcardSet'
+ *       500:
+ *         description: Internal server error
+ */
+router.post('/sets/', async (req, res) => {
+    try {
+        const flashcardSet = await flashCardService.createFlashcardSet(req.body);
+        res.json(flashcardSet);
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
+
+/**
+ * @swagger
+ * /flashcards/sets/{id}:
+ *   get:
+ *     summary: Get a flashcard set
+ *     tags: [Flashcard Sets]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Flashcard set ID
+ *     responses:
+ *       200:
+ *         description: Flashcard set found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: './models/flashcardSet'
  *       404:
  *         description: No flashcards found
  */

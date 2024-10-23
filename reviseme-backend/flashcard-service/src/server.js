@@ -45,6 +45,7 @@ server.use('/review', reviewController);
 server.use('/flashcardsSets', flashCardSetController);
 server.use('/groups', groupsController);
 
+
 // Swagger route
 server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
