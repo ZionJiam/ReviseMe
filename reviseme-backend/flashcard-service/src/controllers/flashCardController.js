@@ -3,13 +3,6 @@ const router = express.Router();
 const flashCardService = require('../services/flashCardService');
 
 
-
-/**
-@swagger
-tags:
-    - name: FlashCards
-    - description: FlashCards API
-*/
 /**
  * @swagger
  * /flashcards/all:
@@ -325,15 +318,10 @@ router.get('/sets/all', async (req, res) => {
  */
 router.post('/sets/', async (req, res) => {
     try {
-
-        // Check if a user is logged in by checking the session
-        const userId = req.userId; // This comes from the authenticateJWT middleware
-        console.log("UserId is retrieved in flashcard POST API: " + userId);
-        const flashcardSet = await flashCardService.createFlashcardSet(req.body, userId);
+        const flashcardSet = await flashCardService.createFlashcardSet(req.body);
         res.json(flashcardSet);
     } catch (error) {
-        console.error('Error creating flashcard set:', error);
-        res.status(500).json({ message: 'Internal Server Error', error: error.message });
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 });
 
