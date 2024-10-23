@@ -4,9 +4,20 @@ const FlashcardSet = require('../models/flashcardSet');
 class FlashCardService {
     async findAll() {
         try {
-            return await FlashCard.find();
+            return await FlashCard.find()
         } catch (error) {
             throw new Error('Error finding flashcards');
+        }
+    }
+
+
+    async findAllLTEToday() {
+        try {
+            const today = new Date();
+
+            return await FlashCard.find({ next_review_date: { $lte: today } });
+        } catch (error) {
+            throw new Error('Error finding late flashcards');
         }
     }
 
@@ -46,6 +57,7 @@ class FlashCardService {
         }
     }
 
+
     async findAllFlashcardSets() {
         try {
             return await FlashcardSet.find().populate('flashcards');
@@ -73,7 +85,11 @@ class FlashCardService {
     }
 
     async deleteFlashcardSet(id) {
-        return await FlashcardSet.findByIdAndDelete(id);
+        return FlashcardSet.findByIdAndDelete(id);
+    }
+
+    async deleteDueFlashcardSets() {
+        return FlashcardSet.deleteMany({ name: "Due Flashcards" });
     }
 
     async addMultipleFlashCardsToSet(flashcardSetId, flashcardIds) {
@@ -104,6 +120,30 @@ class FlashCardService {
         }
         flashcardSet.flashcards = flashcardSet.flashcards.filter(id => !flashcardIds.includes(id.toString()));
         return await flashcardSet.save();
+    }
+
+    async createFlashcardSetWithDueCards() {
+        const today = new Date();
+        today.setHours(23, 59, 59, 999); // End of today
+
+        const dueFlashcards = await FlashCard.find({ next_review_date: { $lte: today } });
+
+        const flashcardSet = new FlashcardSet({
+            name: "Due Flashcards",
+            description: "Flashcards due for review today",
+            flashcards: dueFlashcards.map(card => card._id)
+        });
+
+        // Save the flashcard set
+        await flashcardSet.save();
+
+        // Update the flashcards to reference the new set
+        await FlashCard.updateMany(
+            { _id: { $in: dueFlashcards.map(card => card._id) } },
+            { flashcardSet: flashcardSet._id }
+        );
+
+        return flashcardSet;
     }
 }
 

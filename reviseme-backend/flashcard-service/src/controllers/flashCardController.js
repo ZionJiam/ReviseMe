@@ -2,12 +2,7 @@ const express = require('express');
 const router = express.Router();
 const flashCardService = require('../services/flashCardService');
 
-/**
-@swagger
-tags:
-    - name: FlashCards
-    - description: FlashCards API
-*/
+
 /**
  * @swagger
  * /flashcards/all:
