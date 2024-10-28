@@ -1,3 +1,4 @@
+# Dockerfile for Frontend
 # Use the official Node.js image to build the React app
 FROM node:18 AS build
 

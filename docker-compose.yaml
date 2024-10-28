@@ -5,11 +5,16 @@ services:
     build: ./reviseme-backend/auth2-service
     ports:
       - "5002:5002"  # Expose backend on port 5000
+      - "5003:5003"  # Expose backend on port 5003s
     volumes:
       - ./reviseme-backend/auth2-service:/usr/src/app  # Mount the backend folder
     environment:
-      - NODE_ENV=development
+      # - NODE_ENV=development
       - MONGODB_URI=mongodb://mongo:27017/testDB  # Connection string for MongoDB
+      - SESSION_SECRET=yourGeneratedSecretKey
+    env_file:
+      - ./reviseme-backend/auth2-service/.env
+      
     depends_on:
       - mongo  # Ensure MongoDB starts before this service
     networks:
@@ -29,7 +34,8 @@ services:
       - mongo  # Ensure MongoDB starts before this service
     networks:
       - app-network  # Connect to the specified network
-
+    env_file:
+      - ./reviseme-backend/flashcard-service/src/.env
   mongo:
     image: mongo:5.0  # Use the specified MongoDB image
     ports:
