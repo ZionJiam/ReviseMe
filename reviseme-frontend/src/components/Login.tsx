@@ -9,7 +9,10 @@ export default function Login() {
 
   // Use React Router's useNavigate hook
   const navigate = useNavigate();
-
+  const handleGoogleLogin = () => {
+    // Redirect to the Google authentication route
+    window.location.href = 'http://localhost:5002/api/users/google'; // Redirect to the backend
+};
   const handleLogin = async () => {
     try {
       const response = await fetch('http://localhost:5002/api/users/login', {
@@ -78,7 +81,13 @@ export default function Login() {
           </button>
 
         </form>
-
+        {/* Google login button */}
+        <button type="button" onClick={handleGoogleLogin} className="google-login-btn"><img
+                    src="	https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg"
+                    alt="Google logo"
+                    className="google-logo"
+                />Login with Google</button>
+            
         <p className="signup-text">
           New to the platform? <a href="/signin">Join now</a>
         </p>
