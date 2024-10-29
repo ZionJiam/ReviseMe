@@ -3,7 +3,7 @@ const session = require('express-session');
 const router = express.Router();
 const User = require('../models/User');
 const People = require('../models/People');
-
+const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -97,5 +97,29 @@ router.get('/users', async (req, res) => {
     res.status(400).json({ message: 'Error fetching users', error:error.message });
   }
 });
+
+// Route to initiate Google login
+router.get('/login/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+// Google OAuth callback route
+router.get('/google/callback', 
+  passport.authenticate('google', { session: false, failureRedirect: '/' }), 
+  (req, res) => {
+    const { user } = req;
+    const token = jwt.sign({ userId: user._id }, SECRET_KEY, { expiresIn: '1h' });
+
+    // Send the token as an HttpOnly cookie
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: false, // Set to true in production with HTTPS
+      sameSite: 'Lax',
+      maxAge: 3600000 // 1 hour
+    });
+
+    // Redirect to the frontend (e.g., flashcard page) or send token in response
+    res.status(200).json({ message: 'Google login successful', token });
+  }
+);
+
 
 module.exports = router;
