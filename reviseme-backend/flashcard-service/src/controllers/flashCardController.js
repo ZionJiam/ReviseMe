@@ -252,284 +252,31 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-// FlashCardSets APIs
-
 /**
  * @swagger
- * /flashcards/sets/all:
- *   get:
- *     summary: Get all flashcard sets
- *     tags: [Flashcard Sets]
+ * /flashcards:
+ *   delete:
+ *     summary: Delete all flashcards
+ *     tags: [Flashcards]
  *     responses:
  *       200:
- *         description: A list of flashcard sets
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: './models/flashcardSet'
- *       500:
- *         description: Internal server error
- */
-router.get('/sets/all', async (req, res) => {
-    try {
-        const flashcardSets = await flashCardService.findAllFlashcardSets();
-        res.json(flashcardSets);
-    } catch (error) {
-        res.status(500).json({ message: 'Internal Server Error' });
-    }
-});
-
-
-/**
- * @swagger
- * /flashcards/sets:
- *   post:
- *     summary: Create a new flashcard set
- *     tags: [Flashcard Sets]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *                 example: Geography
- *               description:
- *                 type: string
- *                 example: Countries of the world
- *               flashcardIds:
- *                 type: array
- *                 items:
- *                   type: string
- *                 example: [123, 456, 789]
- *     responses:
- *       201:
- *         description: Flashcard set created
- *         content:
- *           application/json:
- *             schema:
- *               $ref: './models/flashcardSet'
- *       500:
- *         description: Internal server error
- */
-router.post('/sets/', async (req, res) => {
-    try {
-
-        // Check if a user is logged in by checking the session
-        const userId = req.userId; // This comes from the authenticateJWT middleware
-        console.log("UserId is retrieved in flashcard POST API: " + userId);
-        const flashcardSet = await flashCardService.createFlashcardSet(req.body, userId);
-        res.json(flashcardSet);
-    } catch (error) {
-        console.error('Error creating flashcard set:', error);
-        res.status(500).json({ message: 'Internal Server Error', error: error.message });
-    }
-});
-
-
-/**
- * @swagger
- * /flashcards/sets/{id}:
- *   get:
- *     summary: Get a flashcard set
- *     tags: [Flashcard Sets]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: Flashcard set ID
- *     responses:
- *       200:
- *         description: Flashcard set found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: './models/flashcardSet'
+ *         description: All flashcards deleted
  *       404:
- *         description: Flashcard set not found
+ *         description: No flashcards found
  */
-router.get('/sets/:id', async (req, res) => {
+// Delete all flashcards
+router.delete('/', async (req, res) => {
+    console.log('Attempting to delete all flashcards');
     try {
-        const flashcardSet = await flashCardService.getFlashcardSet(req.params.id);
-        res.json(flashcardSet);
+        const deletedFlashCards = await flashCardService.deleteAllFlashCards();
+        if (!deletedFlashCards) {
+            console.warn('No flashcards found');
+            return res.status(404).json({ message: 'No flashcards found' });
+        }
+        console.log(`Successfully deleted All flashcards`);
+        res.json({ message: `Deleted All flashcards` });
     } catch (error) {
-        res.status(404).json({ message: 'FlashcardSet not found' });
-    }
-});
-
-
-/**
- * @swagger
- * /flashcards/sets/{id}:
- *   put:
- *     summary: Update a flashcard set
- *     tags: [Flashcard Sets]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: Flashcard set ID
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *                 example: Geography
- *               description:
- *                 type: string
- *                 example: Countries of the world
- *               flashcardIds:
- *                 type: array
- *                 items:
- *                   type: string
- *                 example: [123, 456, 789]
- *     responses:
- *       200:
- *         description: Flashcard set updated
- *         content:
- *           application/json:
- *             schema:
- *               $ref: './models/flashcardSet'
- *       500:
- *         description: Internal server error
- */
-router.put('/sets/:id', async (req, res) => {
-    try {
-        const flashcardSet = await flashCardService.updateFlashcardSet(req.params.id, req.body);
-        res.json(flashcardSet);
-    } catch (error) {
-        res.status(500).json({ message: 'Internal Server Error' });
-    }
-});
-
-
-/**
- * @swagger
- * /flashcards/sets/{id}:
- *   delete:
- *     summary: Delete a flashcard set
- *     tags: [Flashcard Sets]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: Flashcard set ID
- *     responses:
- *       200:
- *         description: Flashcard set deleted
- *       500:
- *         description: Internal server error
- */
-router.delete('/sets/:id', async (req, res) => {
-    try {
-        await flashCardService.deleteFlashcardSet(req.params.id);
-        res.json({ message: 'FlashcardSet deleted' });
-    } catch (error) {
-        res.status(500).json({ message: 'Internal Server Error' });
-    }
-});
-
-/**
- * @swagger
- * /flashcards/sets/{id}/cards:
- *   post:
- *     summary: Add multiple flashcards to a set
- *     tags: [Flashcard Sets]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: Flashcard set ID
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               flashcardIds:
- *                 type: array
- *                 items:
- *                   type: string
- *                 description: Array of flashcard IDs to add
- *     responses:
- *       200:
- *         description: Flashcard set updated
- *         content:
- *           application/json:
- *             schema:
- *               $ref: './models/flashcardSet'
- *       500:
- *         description: Internal server error
- */
-router.post('/sets/:id/cards', async (req, res) => {
-    try {
-        const { flashcardIds } = req.body;
-        const flashcardSet = await flashCardService.addMultipleFlashCardsToSet(req.params.id, flashcardIds);
-        res.json(flashcardSet);
-    } catch (error) {
-        res.status(500).json({ message: 'Internal Server Error' });
-    }
-});
-
-
-/**
- * @swagger
- * /flashcards/sets/{id}/cards:
- *   delete:
- *     summary: Remove multiple flashcards from a set
- *     tags: [Flashcard Sets]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: Flashcard set ID
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               flashcardIds:
- *                 type: array
- *                 items:
- *                   type: string
- *                 description: Array of flashcard IDs to remove
- *     responses:
- *       200:
- *         description: Flashcard set updated
- *         content:
- *           application/json:
- *             schema:
- *               $ref: './models/flashcardSet'
- *       500:
- *         description: Internal server error
- */
-router.delete('/sets/:id/cards', async (req, res) => {
-    try {
-        const { flashcardIds } = req.body;
-        const flashcardSet = await flashCardService.removeMultipleFlashCardsFromSet(req.params.id, flashcardIds);
-        res.json(flashcardSet);
-    } catch (error) {
+        console.error('Error deleting all flashcards:', error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 });

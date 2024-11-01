@@ -42,6 +42,34 @@ Features
 
 *   Delete flashcards by ID
 
+*   Delete all flashcards
+
+*   Sort flashcards by due date
+
+*   Get flashcards that are due for review today
+  
+*   Get a flashcard set that contains flashcards that are due for review today
+
+*   Get sorted flashcards that are due for review today
+
+*   Get Group by ID
+  
+*   Get all Groups
+
+*   Review flashcards and update their review schedule
+
+*   Add Deck to Group
+
+*   Remove Deck from Group
+
+*   Share Deck with Group
+
+*   Remove Group
+
+*   Remove User from Group
+
+*   Add User to Group
+
 
 Technologies Used
 -----------------
@@ -71,30 +99,68 @@ Getting Started
     *   **docker run -d -p 27017-27019:27017-27019 --name mongodb mongo**
     *   Validate if everything is OK: **docker ps** 
 
-4.  Install required packages
-    **npm install joi**
-    **npm install dotenv**       
-    **npm install jest supertest --save-dev** 
-    **npm install swagger-jsdoc swagger-ui-express** (for documentation)
+4.  Start the service: **node src/server.js**
 
-5.  Start the service: **node src/server.js**
+5.  Access the APP: **http://localhost:3000/flashcards**
 
-6.  Access the APP: **http://localhost:3000/flashcards**
+Quick Start
+-----------
 
+To quickly start using the API, follow these steps:
+
+```sh
+Start the server
+node server.js
+
+# Create a new flashcard
+curl -X POST http://localhost:3000/flashcards -d '{"question": "What is Node.js?", "answer": "A JavaScript runtime environment."}'
+
+# Retrieve all flashcards
+curl -X GET http://localhost:3000/flashcards/all
+```
 
 API Endpoints
 -------------
+### Flashcards
 
-*   **GET /flashcards**: Retrieve all flashcards
+- **GET /flashcards/all**: Retrieve a list of all flashcards
+- **GET /flashcards/{id}**: Retrieve a flashcard by ID
+- **POST /flashcards**: Create a new flashcard
+- **PUT /flashcards/{id}**: Update a flashcard by ID
+- **DELETE /flashcards/{id}**: Delete a flashcard by ID
+- **DELETE /flashcards**: Delete all flashcards
 
-*   **GET /flashcards/:id**: Retrieve a specific flashcard by ID
+### Flashcard Sets
 
-*   **POST /flashcards**: Create a new flashcard
+- **GET /flashcardsSets/all**: Retrieve a list of all flashcard sets
+- **POST /flashcardsSets**: Create a new flashcard set
+- **GET /flashcardsSets/{id}**: Retrieve a flashcard set by ID
+- **PUT /flashcardsSets/{id}**: Update a flashcard set by ID
+- **DELETE /flashcardsSets/{id}**: Delete a flashcard set by ID
+- **DELETE /flashcardsSets**: Delete all flashcard sets
+- **POST /flashcardsSets/{id}/cards**: Add multiple flashcards to a set
+- **DELETE /flashcardsSets/{id}/cards**: Remove multiple flashcards from a set
+- **DELETE /flashcardsSets/{id}/cards/all**: Remove all flashcards from a set
+- **DELETE /flashcardsSets/user/{userId}/cards**: Remove all flashcard set from a user
+- **GET /flashcardsSets/user/{userId}/cards**: Get all flashcard sets by user ID
 
-*   **PUT /flashcards/:id**: Update an existing flashcard
+### Review
 
-*   **DELETE /flashcards/:id**: Delete a flashcard by ID
+- **POST /review/{id}/review**: Review a flashcard and update its review schedule
+- **GET /review/today**: Get flashcards that are due for review today
+- **GET /review/sorted-due-today**: Get sorted flashcards that are due for review today
+- **GET /review/today/flashCardSet**: Get a flashcard set that contains flashcards that are due for review today
 
+### Groups
+
+- **GET /groups**: Retrieve a list of all groups
+- **POST /groups**: Create a new group
+- **POST /groups/groupId/invite**: Invite a user to a group
+- **DELETE /groups/groupId/remove**: Remove a user from a group
+- **GET /groups/{id}**: Retrieve a group by ID
+- **PUT /groups/{id}**: Update a group by ID
+- **DELETE /groups/{id}**: Delete a group by ID
+- **DELETE /groups**: Delete all groups
 
 Request/Response Format
 -----------------------

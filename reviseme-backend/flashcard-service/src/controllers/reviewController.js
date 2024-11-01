@@ -7,7 +7,7 @@ const flashCardService = require('../services/flashCardService');
 
 /**
  * @swagger
- * /flashcards/{id}/review:
+ * /{id}/review:
  *   post:
  *     summary: Review a flashcard and update its review schedule
  *     tags: [Flashcards Review]
@@ -66,7 +66,7 @@ router.post('/:id/review', async (req, res) => {
 
 /**
  * @swagger
- * /flashcards/review/today:
+ * /review/today:
  *   get:
  *     summary: Get flashcards that are due for review today
  *     tags: [Flashcards Review]
@@ -82,7 +82,7 @@ router.post('/:id/review', async (req, res) => {
  *       500:
  *         description: Internal server error
  */
-router.get('/review/today', async (req, res) => {
+router.get('/today', async (req, res) => {
     try {
         const dueFlashcards = await spacedRepetitionService.getDueFlashcards();
         res.json(dueFlashcards);
@@ -95,7 +95,7 @@ router.get('/review/today', async (req, res) => {
 
 /**
  * @swagger
- * /flashcards/review/today/flashCardSet:
+ * /review/today/flashCardSet:
  *   get:
  *     summary: Get a flashcard set that contains flashcards that are due for review today
  *     tags: [Flashcards Review]
@@ -109,7 +109,7 @@ router.get('/review/today', async (req, res) => {
  *       500:
  *         description: Internal server error
  */
-router.get('/review/today/flashCardSet', async (req, res) => {
+router.get('/today/flashCardSet', async (req, res) => {
     try {
         await flashCardService.deleteDueFlashcardSets();
         let flashCardSetWithDueCards = await flashCardService.createFlashcardSetWithDueCards();
@@ -124,7 +124,7 @@ router.get('/review/today/flashCardSet', async (req, res) => {
 
 /**
  * @swagger
- * /flashcards/review/sorted-due-today:
+ * /review/sorted-due-today:
  *   get:
  *     summary: Get sorted flashcards that are due for review today
  *     tags: [Flashcards Review]
@@ -140,7 +140,7 @@ router.get('/review/today/flashCardSet', async (req, res) => {
  *       500:
  *         description: Internal server error
  */
-router.get('/review/sorted-due-today', async (req, res) => {
+router.get('/sorted-due-today', async (req, res) => {
     try {
         const dueFlashcards = await spacedRepetitionService.getDueFlashcards();
         const sortedFlashcards = dueFlashcards.sort((a, b) => a.next_review_date - b.next_review_date);
