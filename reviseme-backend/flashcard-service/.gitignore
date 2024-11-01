@@ -1,0 +1,13 @@
+# JetBrains IDE
+.idea/
+*.iml
+coverage/
+
+# VS Code
+.vscode/*
+!.vscode/extensions.json
+*.iml
+
+# Node artifact files
+node_modules/
+dist/

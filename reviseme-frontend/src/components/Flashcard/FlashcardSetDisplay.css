@@ -1,0 +1,33 @@
+.flashcard-set-container {
+    text-align: center;
+    margin: 20px;
+  }
+  
+  .flashcard-set-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .flashcard-set {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+    width: 200px;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  
+  .flashcard-set:hover {
+    transform: scale(1.05);
+  }
+  
+  .flashcard-set h3 {
+    font-size: 20px;
+  }
+  
+  .flashcard-set p {
+    color: #666;
+  }
+  
