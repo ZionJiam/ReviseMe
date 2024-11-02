@@ -8,10 +8,39 @@ const reviewController = require('./controllers/reviewController');
 const groupsController = require('./controllers/groupsController');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
-
+const cors = require('cors');
 const server = express();
 const PORT = process.env.PORT || 5001;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/flashcards';
+
+const jwt = require('jsonwebtoken');
+const SECRET_KEY = 'ILOVEYOU';
+const cookieParser = require('cookie-parser');
+
+// Middleware to verify JWT
+const authenticateJWT = (req, res, next) => {
+    const token = req.cookies.token;
+    console.log('Enter Authentica JWT TOKEN');
+
+
+    if (!token) {
+    console.log('No token found in cookies');
+      return res.status(401).json({ message: 'Access token required' });
+    }
+  
+    jwt.verify(token, SECRET_KEY, (err, user) => {
+      if (err) {
+        console.log('Token verification failed:', err);
+        return res.status(403).json({ message: 'Invalid or expired token' });
+      }
+      req.user = user;
+      req.userId = user.userId;
+      console.log("User DATA IS: " + user.userId);
+      next();
+    });
+  };
+
+  console.log('Connecting to MongoDB at:', MONGODB_URI);
 
 const options = {
     definition: {
@@ -27,10 +56,10 @@ const options = {
             },
         ],
     },
-    apis: ['ReviseMe/reviseme-backend/flashcard-service/src/controllers/flashCardController.js',
-    'ReviseMe/reviseme-backend/flashcard-service/src/controllers/flashCardSetController.js',
-    'ReviseMe/reviseme-backend/flashcard-service/src/controllers/groupsController.js',
-    'ReviseMe/reviseme-backend/flashcard-service/src/controllers/reviewController.js']
+    apis: ['./src/controllers/flashCardController.js',
+    './src/controllers/flashCardSetController.js',
+    './src/controllers/groupsController.js',
+    './src/controllers/reviewController.js']
 };
 const swaggerDocs = swaggerJsDoc(options);
 
@@ -47,7 +76,14 @@ server.use(cors({
 // Routes with NO authenticating of cookies
 
 // // Routes with authenticating of cookies
-server.use('/flashcards', authenticateJWT, flashCardController);
+// server.use('/flashcards', authenticateJWT, flashCardController);
+
+// Routes
+server.use('/flashcards', flashCardController);
+server.use('/review', reviewController);
+server.use('/flashcardsSets', flashCardSetController);
+server.use('/groups', groupsController);
+
 
 
 server.use('/flashcards', flashCardController, reviewController);
