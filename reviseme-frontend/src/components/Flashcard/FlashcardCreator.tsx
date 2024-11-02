@@ -58,7 +58,7 @@ const FlashcardCreator: React.FC = () => {
     };
 
     try {
-      const response = await fetch('http://localhost:5001/flashcards/sets/', {
+      const response = await fetch('http://localhost:5001/flashcardsSets/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

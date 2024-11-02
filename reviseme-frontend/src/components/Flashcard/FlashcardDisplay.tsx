@@ -31,7 +31,7 @@ const FlashcardDisplay: React.FC = () => {
   useEffect(() => {
     const fetchFlashcards = async () => {
       try {
-        const response = await fetch(`http://localhost:5001/flashcards/sets/${setId}`, {
+        const response = await fetch(`http://localhost:5001/flashcardsSets/${setId}`, {
           credentials: 'include', // Automatically include cookies
         });
         const data: FlashcardSet = await response.json();

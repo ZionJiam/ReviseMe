@@ -36,6 +36,15 @@ class FlashCardService {
         }
     }
 
+    async createFlashcards(flashcardsData, userId) {
+        const flashcardPromises = flashcardsData.map(cardData => {
+            const flashcard = new FlashCard({ ...cardData, userId });
+            return flashcard.save();
+        });
+        const flashcardDocuments = await Promise.all(flashcardPromises);
+        return flashcardDocuments.map(doc => doc._id);
+    }
+
     async updateFlashCard(id, data) {
         try {
             return await FlashCard.findOneAndUpdate(
@@ -66,6 +75,9 @@ class FlashCardService {
     }
 
     async createFlashcardSet(data, userId) {
+        console.log("FlashcardService");
+
+
         const { name, description, flashcards } = data;
 
         // Create the FlashcardSet

@@ -42,10 +42,12 @@ services:
   frontend:
     build:
       context: ./reviseme-frontend # Path to the frontend folder
+    volumes:
+      - ./reviseme-frontend/src:/app/src   # Ensure live reload capability
     ports:
-      - "3000:80"
+      - "3000:80"  # Change to match the internal port if different
     networks:
-      - app-network  # Connect to the specified network
+      - app-network  # Ensure this network is defined elsewhere in docker-compose.yml
 
 volumes:
   mongo-data:  # Define a named volume for MongoDB data

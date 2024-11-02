@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const flashCardSetService = require('../services/flashCardSetService');
+const flashCardService = require('../services/flashCardService');
 
 
 // FlashCardSets APIs
@@ -69,10 +70,13 @@ router.get('/all', async (req, res) => {
  */
 router.post('/', async (req, res) => {
     try {
-        const flashcardSet = await flashCardSetService.createFlashcardSet(req.body);
+        const { name, description, userId, flashcards } = req.body;
+        const createdFlashcards = await flashCardService.createFlashcards(flashcards, userId);
+        const flashcardSet = await flashCardSetService.createFlashcardSet(name, description, userId, createdFlashcards);
         res.json(flashcardSet);
     } catch (error) {
-        res.status(500).json({ message: 'Internal Server Error' });
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
 });
 
@@ -437,6 +441,7 @@ router.delete('/user/:userId/cards', async (req, res) => {
  *       500:
  *         description: Internal server error
  */
+
 router.get('/user/:userId', async (req, res) => {
     try {
         const flashcardSets = await flashCardSetService.getAllFlashCardSetsByUserId(req.params.userId);
@@ -445,5 +450,16 @@ router.get('/user/:userId', async (req, res) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 });
+
+router.get('/user', async (req, res) => {
+    console.log("Entered here User")
+    try {
+        const flashcardSets = await flashCardSetService.getAllFlashCardSetsByUserId(req.userId);
+        res.json(flashcardSets);
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
 
 module.exports = router;

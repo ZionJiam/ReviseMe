@@ -35,6 +35,8 @@ const authenticateJWT = (req, res, next) => {
       }
       req.user = user;
       req.userId = user.userId;
+      // Add userId to req.body
+      req.body.userId = user.userId;
       console.log("User DATA IS: " + user.userId);
       next();
     });
@@ -79,7 +81,7 @@ server.use(cors({
 // server.use('/flashcards', authenticateJWT, flashCardController);
 
 // Routes
-server.use('/flashcards', flashCardController);
+server.use('/flashcards',authenticateJWT, flashCardController);
 server.use('/review', reviewController);
 server.use('/flashcardsSets', flashCardSetController);
 server.use('/groups', groupsController);

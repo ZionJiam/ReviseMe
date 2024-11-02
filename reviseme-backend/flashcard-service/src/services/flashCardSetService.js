@@ -11,8 +11,16 @@ class FlashCardSetService {
         }
     }
 
-    async createFlashcardSet(data) {
-        const flashcardSet = new FlashcardSet(data);
+    async createFlashcardSet(name, description, userId, flashcardIds) {
+
+        console.log("FlashcardsSetService");
+
+        const flashcardSet = new FlashcardSet({
+            name,
+            description,
+            userId,
+            flashcards: flashcardIds
+        });
         return await flashcardSet.save();
     }
 

@@ -8,6 +8,7 @@ interface FlashcardSet {
   description: string;
 }
 
+
 const FlashcardSetDisplay: React.FC = () => {
   const [flashcardSets, setFlashcardSets] = useState<FlashcardSet[]>([]);
   const navigate = useNavigate();
@@ -15,9 +16,11 @@ const FlashcardSetDisplay: React.FC = () => {
   useEffect(() => {
     const fetchFlashcardSets = async () => {
       try {
-        const response = await fetch('http://localhost:5001/flashcards/sets/all', {
+        const response = await fetch('http://localhost:5001/flashcardsSets/all', {
+          method: 'GET',
           credentials: 'include', // Automatically include cookies
         });
+        console.log("Enteredherhe");
         const data: FlashcardSet[] = await response.json();
         setFlashcardSets(data);
       } catch (error) {
@@ -55,7 +58,7 @@ const FlashcardSetDisplay: React.FC = () => {
 
   return (
     <div className="flashcard-set-container">
-      <h2>ALL Available Flashcard Sets</h2>
+      <h2>ALL Available Flashcard Sets 123</h2>
       <button onClick={() => navigate('/Flashcard/FlashcardCreator')}>Create Flashcard Set</button>
       <button onClick={handleLogout}>Logout</button> {/* Added logout button */}
       <div className="flashcard-set-row">
