@@ -6,7 +6,7 @@ const flashCardSchema = new mongoose.Schema({
     subject: { type: String, required: true, trim: true },
     tags: { type: [String], default: [] },
     flashcardSet: { type: mongoose.Schema.Types.ObjectId, ref: 'FlashcardSet' },
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     bucket: { type: Number, default: 1 },
     next_review_date: { type: Date, default: Date.now },
     times_reviewed: { type: Number, default: 0 },

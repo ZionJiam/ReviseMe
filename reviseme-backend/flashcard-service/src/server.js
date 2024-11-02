@@ -54,9 +54,8 @@ const options = {
             },
         ],
     },
-    apis: ['ReviseMe/reviseme-backend/flashcard-service/src/controllers/flashCardController.js',
-    'ReviseMe/reviseme-backend/flashcard-service/src/controllers/reviewController.js']
-    apis: ['./src/controllers/flashCardController.js'],
+    apis: ['./src/controllers/flashCardController.js',
+    './src/controllers/reviewController.js']
 };
 const swaggerDocs = swaggerJsDoc(options);
 
