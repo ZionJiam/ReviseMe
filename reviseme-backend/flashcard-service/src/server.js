@@ -34,6 +34,7 @@ server.use(bodyParser.json());
 
 // Routes
 server.use('/flashcards', flashCardController);
+server.use('/flashcards', flashCardAiController);
 
 // Swagger route
 server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
