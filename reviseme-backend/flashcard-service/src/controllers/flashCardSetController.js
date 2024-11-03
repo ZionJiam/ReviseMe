@@ -26,6 +26,8 @@ const flashCardService = require('../services/flashCardService');
  */
 router.get('/all', async (req, res) => {
     try {
+        console.log("HAHAHHA");
+
         const flashcardSets = await flashCardSetService.findAllFlashcardSets();
         res.json(flashcardSets);
     } catch (error) {
@@ -451,7 +453,7 @@ router.get('/user/:userId', async (req, res) => {
     }
 });
 
-router.get('/user', async (req, res) => {
+router.get('/user/all', async (req, res) => {
     console.log("Entered here User")
     try {
         const flashcardSets = await flashCardSetService.getAllFlashCardSetsByUserId(req.userId);

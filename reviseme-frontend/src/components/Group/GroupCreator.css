@@ -1,0 +1,61 @@
+/* Basic Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Arial', sans-serif; /* Using Arial for simplicity */
+    background-color: #f4f4f4; /* Light grey background for slight contrast */
+    padding: 20px;
+    display: flex;
+    justify-content: center; /* Center the form horizontally */
+    align-items: center; /* Center the form vertically */
+    height: 100vh; /* Full viewport height */
+}
+
+form {
+    background-color: #ffffff; /* White background for the form */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+    width: 100%;
+    max-width: 360px; /* Maximum width of the form */
+}
+
+label {
+    display: block; /* Ensuring the label displays as block */
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #333; /* Dark grey color for text for better readability */
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px; /* Space between the input and the next element */
+    border: 1px solid #ccc; /* Light grey border */
+    border-radius: 4px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #0056b3; /* A deep blue background */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #004494; /* Slightly darker shade on hover */
+}
+
+p {
+    text-align: center;
+    color: #2c3e50; /* Dark blue color for paragraph for visibility */
+    margin-top: 20px;
+}

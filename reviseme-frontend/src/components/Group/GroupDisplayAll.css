@@ -1,0 +1,60 @@
+/* Basic Styling and Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body, html {
+    font-family: 'Arial', sans-serif; /* Using Arial for simplicity */
+    background-color: #f4f4f9; /* Light background for a fresher look */
+}
+
+.group-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.group-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-between;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.group-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.group-card h3 {
+    color: #2c3e50; /* Dark blue for titles */
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.group-card p {
+    color: #555; /* Darker text for better readability */
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 960px) {
+    .group-card {
+    }
+}
+
+@media (max-width: 600px) {
+    .group-card {
+        width: 100%; /* One item per row on mobile screens */
+    }
+}

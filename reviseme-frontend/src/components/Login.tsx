@@ -26,6 +26,8 @@ export default function Login() {
 
       const data = await response.json();
 
+      sessionStorage.setItem('userId', data.userId);
+
       if (response.ok) {
         // Successful login, redirect to homepage
         console.log("Response is: " + data);

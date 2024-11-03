@@ -1,0 +1,44 @@
+.group-details {
+    margin: 20px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.group-details h1, .group-details h2 {
+    color: #333;
+}
+
+.group-details p, .group-details li {
+    color: #666;
+}
+
+.group-details ul {
+    list-style: none;
+    padding: 0;
+}
+
+.group-details li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.group-details li:last-child {
+    border-bottom: none;
+}
+
+.group-details button {
+    padding: 10px 20px;
+    margin: 10px 0;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.group-details button:hover {
+    background-color: #003d7a;
+}

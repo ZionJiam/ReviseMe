@@ -39,14 +39,26 @@ const Group = require('../models/group');
  */
 router.post('/', async (req, res) => {
     try {
-        const { name, ownerId } = req.body;
-        const newGroup = new Group({ name, ownerId, members: [ownerId], decks: [] });
-        await newGroup.save();
-        res.status(201).json(newGroup);
+        const { name, userId } = req.body; // Extracting name and userId from the request body
+
+        console.log("Creating Group with name: " + name + " and ownerId: " + userId);
+
+        // Create a new group with the userId as both ownerId and a member
+        const newGroup = new Group({
+            name,
+            ownerId: userId, // Set ownerId to be the userId
+            members: [userId], // Initialize members array with the userId
+            decks: [] // Initialize decks as an empty array
+        });
+
+        await newGroup.save(); // Save the new group to the database
+        res.status(201).json(newGroup); // Send the newly created group as a response
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error("Error creating group: " + error.message);
+        res.status(500).json({ error: error.message }); // Send error response
     }
 });
+
 
 /**
  * @swagger
@@ -134,20 +146,36 @@ router.put('/:groupId', async (req, res) => {
  */
 router.post('/:groupId/invite', async (req, res) => {
     try {
-        const { groupId } = req.params;
-        const { userIds } = req.body;
+        const groupId = req.params.groupId;
+        const userId = req.body.userId; // Expect a single userId
+
+        console.log("GroupID:", groupId);
+        console.log("UserID:", userId);
+
+        if (!userId) {
+            return res.status(400).json({ error: 'userId is required' });
+        }
+
         const group = await Group.findById(groupId);
         if (!group) {
             return res.status(404).json({ error: 'Group not found' });
         }
-        const newUsers = userIds.filter(id => !group.members.includes(id));
-        group.members.push(...newUsers);
+
+        // Check if the user is already a member of the group
+        if (group.members.includes(userId)) {
+            return res.status(409).json({ message: "User already a member of the group" });
+        }
+
+        // Add the user to the group members
+        group.members.push(userId);
         await group.save();
         res.status(200).json(group);
     } catch (error) {
+        console.error("Error processing invite:", error);
         res.status(500).json({ error: error.message });
     }
 });
+
 
 /**
  * @swagger
@@ -259,7 +287,7 @@ router.get('/', async (req, res) => {
 router.get('/:groupId', async (req, res) => {
     try {
         const { groupId } = req.params;
-        const group = await Group.findById(groupId);
+        const group = await Group.findById(groupId).populate('decks');
         if (!group) {
             return res.status(404).json({ error: 'Group not found' });
         }
