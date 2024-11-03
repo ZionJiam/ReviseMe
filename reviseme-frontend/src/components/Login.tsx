@@ -31,7 +31,7 @@ export default function Login() {
       if (response.ok) {
         // Successful login, redirect to homepage
         console.log("Response is: " + data);
-        navigate('/Flashcard/FlashcardSetDisplay');
+        navigate('/General/DisplayAll');
       } else {
         // Display error message
         setError(data.message || 'Login failed');
