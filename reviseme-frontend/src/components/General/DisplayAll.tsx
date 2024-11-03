@@ -60,6 +60,7 @@ const DisplayAll = () => {
         <div className="display-all">
             <div className="top-controls">
                 <button onClick={() => navigate('/Flashcard/FlashcardCreator')}>Create Flashcard Set</button>
+                <button onClick={() => navigate('/Group/GroupCreator')}>Create Group</button>
                 <button onClick={handleLogout}>Logout</button>
             </div>
             <div className="section">
