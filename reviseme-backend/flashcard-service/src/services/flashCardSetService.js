@@ -1,5 +1,7 @@
 const FlashCard = require('../models/flashCard');
 const FlashcardSet = require('../models/flashcardSet');
+const mongoose = require('mongoose');
+
 
 class FlashCardSetService {
 
@@ -26,6 +28,29 @@ class FlashCardSetService {
 
     async getFlashcardSet(id) {
         return FlashcardSet.findById(id).populate('flashcards');
+    }
+
+        
+    async getFlashcardSetDueForToday(userId) {
+        try {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Set the time to 00:00:00 to make date-only comparison
+    
+            // Find all flashcard sets that belong to the user
+            const flashcardSets = await FlashcardSet.find({ userId }) // Assuming userId is directly associated with FlashcardSet
+                .populate({
+                    path: 'flashcards',
+                    match: { next_review_date: { $lte: today } }, // Filter flashcards due for review today or earlier
+                });
+    
+            // Filter out sets that have no flashcards due today
+            const setsDueForReview = flashcardSets.filter(set => set.flashcards.length > 0);
+    
+            return setsDueForReview;
+        } catch (error) {
+            console.error('Error fetching flashcard sets due for review:', error);
+            throw new Error('Error fetching flashcard sets due for review');
+        }
     }
 
     async updateFlashcardSet(id, data) {

@@ -30,6 +30,21 @@ services:
     networks:
       - app-network  # Connect to the specified network
 
+  flashcard-ai-service:
+    build:
+      context: ./reviseme-backend/flashcard-ai-service
+    ports:
+      - "5010:5010"  # Expose flashcard-service on port 5001
+    volumes:
+      - ./reviseme-backend/flashcard-ai-service:/usr/src/app  # Mount the backend folder
+    environment:
+      - NODE_ENV=development
+      - MONGODB_URI=mongodb://mongo:27017/testDB  # Connection string for MongoDB
+    depends_on:
+      - mongo  # Ensure MongoDB starts before this service
+    networks:
+      - app-network  # Connect to the specified network
+
   mongo:
     image: mongo:5.0  # Use the specified MongoDB image
     ports:

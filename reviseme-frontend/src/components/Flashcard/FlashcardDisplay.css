@@ -1,63 +1,118 @@
 .flashcard-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 100vh;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #f4f4f4;
+}
+
+h1 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: 600;
 }
 
 .flashcard {
-  width: 500px;
-  height: 300px;
-  border-radius: 8px;
-  perspective: 1000px;
-  cursor: pointer;
-  background-color: none !important;
-}
-
-.flashcard .front,
-.flashcard .back {
   width: 100%;
-  height: 100%;
+  max-width: 500px;
+  min-height: 200px;
   background-color: #fff;
-  border-radius: 8px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 18px;
-  backface-visibility: hidden;
-  position: absolute;
-  transition: transform 0.6s;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-size: 1.5rem;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.flashcard.flipped .front {
-  transform: rotateX(360deg);
+.flashcard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-.flashcard .back {
-  transform: rotateX(360deg);
+.flipped {
+  background-color: #e9ecef;
 }
 
-.flashcard.flipped .back {
-  transform: rotateX(0deg);
-}
-
-.controls {
+.controls, .review-controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
   margin-top: 20px;
 }
 
-button {
-  margin: 0 10px;
-  padding: 10px 20px;
+.button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+}
+
+.button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.button-primary {
   background-color: #007bff;
   color: white;
-  border: none;
+}
+
+.button-primary:hover {
+  background-color: #0056b3;
+}
+
+.button-good {
+  background-color: #28a745;
+  color: white;
+}
+
+.button-good:hover {
+  background-color: #218838;
+}
+
+.button-bad {
+  background-color: #dc3545;
+  color: white;
+}
+
+.button-bad:hover {
+  background-color: #c82333;
+}
+
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: #6c757d;
+  color: white;
+  padding: 10px 15px;
   border-radius: 5px;
+  font-size: 1rem;
   cursor: pointer;
 }
 
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+.back-button:hover {
+  background-color: #5a6268;
+}
+
+.error-message {
+  color: red;
+  margin-top: 15px;
 }

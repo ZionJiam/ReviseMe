@@ -3,6 +3,8 @@ const router = express.Router();
 const spacedRepetitionService = require('../services/spacedRepetitionService');
 const FlashCard = require('../models/flashCard');
 const flashCardService = require('../services/flashCardService');
+const flashCardSetService = require('../services/flashCardSetService');
+
 
 
 /**
@@ -111,15 +113,14 @@ router.get('/today', async (req, res) => {
  */
 router.get('/today/flashCardSet', async (req, res) => {
     try {
-        await flashCardService.deleteDueFlashcardSets();
-        let flashCardSetWithDueCards = await flashCardService.createFlashcardSetWithDueCards();
-        flashCardSetWithDueCards= await flashCardService.getFlashcardSet(flashCardSetWithDueCards._id);
+        flashCardSetWithDueCards= await flashCardSetService.getFlashcardSetDueForToday(req.userId);
         res.json(flashCardSetWithDueCards);
     } catch (error) {
         console.error('Error fetching due flashCardSet:', error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 });
+
 
 
 /**

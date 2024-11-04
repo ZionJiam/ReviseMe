@@ -1,44 +1,110 @@
+/* Group Detail Container */
 .group-details {
-    margin: 20px;
+    max-width: 800px;
+    margin: 0 auto;
     padding: 20px;
-    background: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.group-details h1, .group-details h2 {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+  
+  .group-title {
+    font-size: 2rem;
     color: #333;
-}
-
-.group-details p, .group-details li {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .group-info {
     color: #666;
-}
-
-.group-details ul {
-    list-style: none;
-    padding: 0;
-}
-
-.group-details li {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-    cursor: pointer;
-}
-
-.group-details li:last-child {
-    border-bottom: none;
-}
-
-.group-details button {
+    font-size: 1rem;
+    margin: 5px 0;
+    text-align: center;
+  }
+  
+  .action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+  }
+  
+  .add-btn, .join-btn, .back-btn {
     padding: 10px 20px;
-    margin: 10px 0;
-    background-color: #0056b3;
-    color: white;
-    border: none;
-    border-radius: 5px;
+    font-size: 1rem;
+    border-radius: 8px;
     cursor: pointer;
-}
-
-.group-details button:hover {
-    background-color: #003d7a;
-}
+    transition: background-color 0.3s ease;
+    text-align: center;
+    min-width: 120px;
+  }
+  
+  .add-btn {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .add-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .join-btn {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .join-btn:hover {
+    background-color: #218838;
+  }
+  
+  .back-btn {
+    background-color: #6c757d;
+    color: white;
+  }
+  
+  .back-btn:hover {
+    background-color: #5a6268;
+  }
+  
+  .flashcard-set-section {
+    margin-top: 20px;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  .flashcard-set-list {
+    padding: 0;
+    list-style-type: none;
+    text-align: center;
+  }
+  
+  .flashcard-set-item {
+    display: inline-block;
+    padding: 15px;
+    margin: 10px 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: 80%;
+  }
+  
+  .flashcard-set-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .error-message, .loading-message {
+    color: red;
+    text-align: center;
+    margin-top: 20px;
+  }
+  

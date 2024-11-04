@@ -1,39 +1,98 @@
-.display-all {
+.display-all-container {
+    max-width: 1200px;
+    margin: 0 auto;
     padding: 20px;
-    width: 100%;
-}
-
-.top-controls {
+    font-family: Arial, sans-serif;
+  }
+  
+  .top-controls-container {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
-}
-
-.section {
-    margin-top: 20px;
-}
-
-.items-container {
+  }
+  
+  .button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+  }
+  
+  .button:hover {
+    background-color: #0056b3;
+  }
+  
+  .create-flashcard {
+    background-color: #007bff;
+  }
+  
+  .create-flashcard-ai {
+    background-color: #28a745;
+  }
+  
+  .create-group {
+    background-color: #6f42c1;
+  }
+  
+  .logout {
+    background-color: #dc3545;
+  }
+  
+  .logout:hover {
+    background-color: #c82333;
+  }
+  
+  .section {
+    margin-bottom: 40px;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: left;
+  }
+  
+  .items-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
     gap: 20px;
-}
-
-.item-card {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 10px;
+  }
+  
+  .item-card {
+    background-color: #f9f9f9;
     padding: 20px;
-    width: 250px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     cursor: pointer;
-    transition: transform 0.3s;
-}
-
-.item-card:hover {
-    transform: scale(1.05);
-}
-
-.item-card h3, .item-card p {
-    margin: 10px 0;
-}
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    flex-basis: 30%;
+    text-align: center;
+  }
+  
+  .item-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .item-title {
+    font-size: 1.25rem;
+    color: #007bff;
+    margin-bottom: 10px;
+  }
+  
+  .item-detail {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .no-items-message {
+    font-size: 1rem;
+    color: #888;
+    text-align: center;
+  }
+  

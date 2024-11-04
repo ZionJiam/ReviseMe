@@ -11,6 +11,7 @@ import DisplayAll from './General/DisplayAll.tsx';
 
 
 import FlashcardCreator from './Flashcard/FlashcardCreator.tsx';
+import FlashcardCreatorAI from './Flashcard/FlashcardCreatorAI.tsx';
 import FlashcardDisplay from './Flashcard/FlashcardDisplay.tsx';
 import FlashcardSetDisplay from './Flashcard/FlashcardSetDisplay.tsx';
 
@@ -44,6 +45,7 @@ export default function AppNavigation() {
 
 
         <Route path="/Flashcard/FlashcardCreator" element={<FlashcardCreator />} />
+        <Route path="/Flashcard/FlashcardCreatorAI" element={<FlashcardCreatorAI />} />
         <Route path="/Flashcard/FlashcardSetDisplay" element={<FlashcardSetDisplay />} />
         <Route path="/flashcards/:setId" element={<FlashcardDisplay />} />
 

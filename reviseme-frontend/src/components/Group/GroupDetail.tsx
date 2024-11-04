@@ -31,7 +31,7 @@ const GroupDetails = () => {
         }
     };
 
-    const handleFlashcardSetClick = setId => {
+    const handleFlashcardSetClick = (setId) => {
         navigate(`/flashcards/${setId}`);
     };
 
@@ -68,38 +68,45 @@ const GroupDetails = () => {
         setFlashcardSets(data);
     };
 
+    const closeModalAndRefresh = () => {
+        setIsModalOpen(false);
+        fetchGroupDetails(); // Refresh group details when modal is closed
+    };
+
     const handleBackClick = () => {
         navigate(-1);
     };
 
     if (error) {
-        return <div>Error: {error}</div>;
+        return <div className="error-message">{error}</div>;
     }
 
     if (!group) {
-        return <div>Loading...</div>;
+        return <div className="loading-message">Loading...</div>;
     }
 
     return (
         <div className="group-details">
-            <h1>{group.name}</h1>
-            <p>Owner ID: {group.ownerId}</p>
-            <p>Members: {group.members.join(', ')}</p>
-            <button onClick={openModal}>+Add Flashcard Set</button>
-            <button onClick={handleJoinGroup}>Join Group</button>
-            <button onClick={handleBackClick}>Back</button>
+            <div className="group-title">{group.name}</div>
+            <div className="group-info">Owner ID: {group.ownerId}</div>
+            <div className="group-info">Members: {group.members.join(', ')}</div>
+            <div className="action-buttons">
+                <div className="add-btn" onClick={openModal}>+ Add Flashcard Set</div>
+                <div className="join-btn" onClick={handleJoinGroup}>Join Group</div>
+                <div className="back-btn" onClick={handleBackClick}>Back</div>
+            </div>
             {isModalOpen && (
                 <SelectFlashcardModal
-                    closeModal={() => setIsModalOpen(false)}
+                    closeModal={closeModalAndRefresh}
                     flashcardSets={flashcardSets}
                     groupId={groupId}
                 />
             )}
-            <div>
-                <h2>Flashcard Sets:</h2>
-                <ul>
+            <div className="flashcard-set-section">
+                <div className="section-title">Flashcard Sets:</div>
+                <ul className="flashcard-set-list">
                     {group.decks.map((deck) => (
-                        <li key={deck._id} onClick={() => handleFlashcardSetClick(deck._id)}>
+                        <li key={deck._id} className="flashcard-set-item" onClick={() => handleFlashcardSetClick(deck._id)}>
                             {deck.name}
                         </li>
                     ))}

@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom'; // To extract the flashcard set ID
 import './FlashcardDisplay.css';
 import { useNavigate } from 'react-router-dom';
 
-
 interface FlashcardSet {
   _id: string;
   name: string;
@@ -21,10 +20,13 @@ interface Flashcard {
 
 const FlashcardDisplay: React.FC = () => {
   const { setId } = useParams<{ setId: string }>(); // Extract setId from URL
-  const [flashcardSet, setFlashcardSet] = useState<FlashcardSet | null>(null); // Changed initial value to null
+  const [flashcardSet, setFlashcardSet] = useState<FlashcardSet | null>(null);
   const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
+  const [loading, setLoading] = useState(false); // Loading state for review submission
+  const [error, setError] = useState<string | null>(null); // Error handling
+
   // Use React Router's useNavigate hook
   const navigate = useNavigate();
 
@@ -65,6 +67,35 @@ const FlashcardDisplay: React.FC = () => {
     navigate(-1);
   };
 
+  // Submit review to spaced repetition API
+  const submitReview = async (performance: 'good' | 'bad') => {
+    const currentFlashcard = flashcards[currentCardIndex];
+    setLoading(true);
+    try {
+      const response = await fetch(`http://localhost:5001/flashcards/${currentFlashcard._id}/review`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ performance }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit review');
+      }
+
+      const data = await response.json();
+      console.log('Next review date:', data.nextReviewDate);
+      setError(null); // Clear any previous errors
+      handleNext(); // Move to the next flashcard after submitting review
+    } catch (error) {
+      setError('Error submitting review');
+      console.error('Error submitting review:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Ensure the current flashcard is valid before rendering
   const currentFlashcard = flashcards.length > 0 ? flashcards[currentCardIndex] : null;
@@ -75,7 +106,7 @@ const FlashcardDisplay: React.FC = () => {
 
   return (
     <div className="flashcard-container">
-      <button onClick={handleBackButtonClick}>Back</button>
+      <button onClick={handleBackButtonClick} className="back-button">Back</button>
       {/* Add the name of the flashcard set as a header */}
       <h1>{flashcardSet.name}</h1> 
 
@@ -92,13 +123,32 @@ const FlashcardDisplay: React.FC = () => {
           </div>
 
           <div className="controls">
-            <button onClick={handlePrevious} disabled={flashcards.length <= 1}>
+            <button onClick={handlePrevious} disabled={flashcards.length <= 1} className="button button-primary">
               Previous
             </button>
-            <button onClick={handleNext} disabled={flashcards.length <= 1}>
+            <button onClick={handleNext} disabled={flashcards.length <= 1} className="button button-primary">
               Next
             </button>
           </div>
+
+          <div className="review-controls">
+            <button 
+              onClick={() => submitReview('good')} 
+              disabled={loading}
+              className="button button-good"
+            >
+              Good
+            </button>
+            <button 
+              onClick={() => submitReview('bad')} 
+              disabled={loading}
+              className="button button-bad"
+            >
+              Bad
+            </button>
+          </div>
+
+          {error && <div className="error-message">{error}</div>}
         </div>
       ) : (
         <div>No flashcards available</div>

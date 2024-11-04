@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import './GroupCreator.css';
 
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
+import './GroupCreator.css';
 
 const GroupCreator = () => {
     const [groupName, setGroupName] = useState('');
     const [status, setStatus] = useState('');
+    const navigate = useNavigate(); // Initialize useNavigate hook
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setGroupName(event.target.value);
@@ -37,20 +39,27 @@ const GroupCreator = () => {
         }
     };
 
+    // Handle going back to the previous page
+    const handleBackClick = () => {
+        navigate(-1); // Go back to the previous page
+    };
+
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="groupName">Group Name:</label>
+        <div className="group-creator-container">
+            <button onClick={handleBackClick} className="back-button">Back</button> {/* Back Button */}
+            <form onSubmit={handleSubmit} className="group-creator-form">
+                <label htmlFor="groupName" className="group-creator-label">Group Name:</label>
                 <input
                     type="text"
                     id="groupName"
                     value={groupName}
                     onChange={handleInputChange}
+                    className="group-creator-input"
                     required
                 />
-                <button type="submit">Create Group</button>
+                <button type="submit" className="group-creator-button">Create Group</button>
             </form>
-            <p>{status}</p>
+            <p className="group-creator-status">{status}</p>
         </div>
     );
 };

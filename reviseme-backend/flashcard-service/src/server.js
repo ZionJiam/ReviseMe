@@ -82,7 +82,7 @@ server.use(cors({
 
 // Routes
 server.use('/flashcards',authenticateJWT, flashCardController);
-server.use('/review', reviewController);
+server.use('/review',authenticateJWT, reviewController);
 server.use('/flashcardsSets',authenticateJWT, flashCardSetController);
 server.use('/groups',authenticateJWT, groupsController);
 
