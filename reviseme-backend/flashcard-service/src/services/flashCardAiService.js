@@ -28,6 +28,7 @@ const flashCardAi = async (req, res) => {
         const completion = await openai.chat.completions.create({
             model: aiModel,
             messages: messages,
+            max_tokens: 100, // Limit the response to a maximum of 100 tokens
         });
 
         const aiResponse = completion.choices[0].message.content;
