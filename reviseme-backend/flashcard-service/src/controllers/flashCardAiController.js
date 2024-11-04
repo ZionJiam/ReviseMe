@@ -1,6 +1,55 @@
 const express = require('express');
 const router = express.Router();
-const flashCardAiService = require('../services/flashCardAiService'); // Adjust the path if necessary
+const flashCardAiService = require('../services/flashCardAiService'); // Ensure this path is correct
+const multer = require('multer');
+
+// Configure multer for file uploads
+const storage = multer.memoryStorage(); // or use diskStorage if you want to save files on disk
+const upload = multer({ storage });
+
+/**
+ * @swagger
+ * /flashcards/upload:
+ *   post:
+ *     summary: Upload flashcard files
+ *     tags: [Flashcards]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               files:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                   format: binary
+ *     responses:
+ *       200:
+ *         description: Files uploaded successfully
+ *       400:
+ *         description: Invalid input
+ *       500:
+ *         description: Internal Server Error
+ */
+router.post('/upload', upload.array('files'), async (req, res) => {
+    try {
+        const files = req.files; // The uploaded files
+
+        if (!files || files.length === 0) {
+            return res.status(400).json({ message: 'No files uploaded' });
+        }
+
+        // Process files (e.g., read content and generate flashcards)
+        // You can integrate your OpenAI service here to process the file contents
+        
+        res.status(200).json({ message: 'Files uploaded successfully', files });
+    } catch (error) {
+        console.error('Error uploading files:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
 
 /**
  * @swagger

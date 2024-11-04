@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const flashCardController = require('./controllers/flashCardController');
+const flashCardAiController = require('./controllers/flashCardAiController');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
 
@@ -24,7 +25,9 @@ const options = {
             },
         ],
     },
-    apis: ['ReviseMe/reviseme-backend/flashcard-service/src/controllers/flashCardController.js'],
+    apis: ['ReviseMe/reviseme-backend/flashcard-service/src/controllers/flashCardController.js',
+        'ReviseMe/reviseme-backend/flashcard-service\src/controllers/flashCardAiController.js'
+    ],
 };
 const swaggerDocs = swaggerJsDoc(options);
 

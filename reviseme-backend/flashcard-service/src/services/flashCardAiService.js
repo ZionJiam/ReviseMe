@@ -1,9 +1,17 @@
-const OpenAI = require("openai");
+const OpenAI = require('openai');
 
-exports.flashCardAi = functions.https.onCall(async (data, context) => {
-    const { prompt } = data;
-    const openai = new OpenAI(process.env.OPENAI_API_KEY);
-    const aiModel = "gpt-3.5-turbo"; 
+// Initialize OpenAI with your API key
+const openai = new OpenAI(process.env.OPENAI_API_KEY);
+const aiModel = "gpt-3.5-turbo"; 
+
+// Function to generate flashcards
+const flashCardAi = async (req, res) => {
+    const { prompt } = req.body;
+
+    // Validate prompt input
+    if (!prompt) {
+        return res.status(400).json({ message: 'Prompt is required' });
+    }
 
     const messages = [
         {
@@ -24,13 +32,12 @@ exports.flashCardAi = functions.https.onCall(async (data, context) => {
 
         const aiResponse = completion.choices[0].message.content;
 
-        return {
-            aiResponse: aiResponse, // This is the response from the AI
-        };
+        // Send the AI response back to the client
+        return res.status(200).json({ aiResponse: aiResponse });
     } catch (error) {
         console.error("Error with OpenAI API:", error);
-        throw new functions.https.HttpsError('internal', 'Unable to generate flashcards');
+        return res.status(500).json({ message: 'Unable to generate flashcards' });
     }
-});
+};
 
-module.exports = new flashCardAiService();
+module.exports = { flashCardAi };
